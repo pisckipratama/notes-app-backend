@@ -1,14 +1,16 @@
+require("dotenv").config();
+
 const Hapi = require("@hapi/hapi");
 const notes = require("./api/notes");
-const NoteServices = require("./services/InMemory/noteServices");
+const NoteServices = require("./services/postgres/NoteService");
 const NotesValidator = require("./validator/notes");
 
 const init = async () => {
   const noteServices = new NoteServices();
 
   const server = Hapi.server({
-    port: 5000,
-    host: `${process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost"}`,
+    port: process.env.PORT,
+    host: process.env.HOST,
     routes: {
       cors: {
         origin: ["*"],
